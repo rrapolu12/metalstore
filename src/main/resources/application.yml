@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/metaldb
+    username: postgres
+    password: postgres
+    data: classpath:warehouse.sql
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+server:
+  port: 8999

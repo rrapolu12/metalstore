@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LME Warehouse Information</title>
+    <style>
+        table, td {
+            border: 1px solid #000000;
+            align: center;
+        }
+        th {
+            border: 1px solid #e39e9e;
+        }
+
+        table, td {
+            text-align: center;
+        }
+    </style>
+    <script>
+        var baseurl = "http://localhost:8999";
+
+        function loadWarehouseInformation(){
+
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("GET", baseurl + "/warehouses", true);
+            xmlhttp.onreadystatechange = function(){
+                if (xmlhttp.readyState ===4 && xmlhttp.status ===200){
+
+                    var warehouses = JSON.parse(xmlhttp.responseText);
+
+                    var tblTop = '<table> ' +
+                        '         <tr>' +
+                        '                 <th>SNO</th>' +
+                        '                 <th>Warehouse Name</th>' +
+                        '                 <th>Jurisdiction/Region</th>' +
+                        '                 <th>Location</th>' +
+                        '                 <th>Facility</th>' +
+                        '                 <th>Status</th>' +
+                        '         </tr>';
+                    var main = "";
+
+                    for(i=0; i < warehouses.length; i++){
+                        main += "<tr>" +
+                                    "<td>"+warehouses[i].id+"</td>" +
+                                    "<td>" + warehouses[i].warehouse + "</td>" +
+                                    "<td>" + warehouses[i].region + "</td>" +
+                                    "<td>" + warehouses[i].location + "</td>" +
+                                    "<td>" + warehouses[i].facility + "</td>" +
+                                    "<td>" +warehouses[i].status + "</td></>" +
+                                "</tr>";
+                    }
+                    var tblBottom = "</table>"
+
+                    var tbl = tblTop + main + tblBottom;
+                    document.getElementById("warehouseinfo").innerHTML = tbl;
+                }
+            };
+            xmlhttp.send();
+        }
+        window.onload = function(){
+            loadWarehouseInformation();
+        }
+    </script>
+</head>
+<body>
+    <div align="center"> <h1> LME's Warehouse Information.</h1></div>
+    <div align="center" id="warehouseinfo"></div>
+</body>
+</html>
